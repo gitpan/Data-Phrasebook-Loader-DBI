@@ -5,7 +5,7 @@ use base qw( Data::Phrasebook::Loader::Base Data::Phrasebook::Debug );
 use Carp qw( croak );
 use DBI;
 
-our $VERSION = '0.11';
+our $VERSION = '0.13';
 
 =head1 NAME
 
@@ -42,18 +42,14 @@ Data::Phrasebook::Loader::DBI - Absract your phrases with a DBI driver.
     $q->delimiters( qr{ \[% \s* (\w+) \s* %\] }x );
     my $phrase = $q->fetch($keyword);
 
-=head1 ABSTRACT
-
-This module provides a loader class for phrasebook implementations using DBI.
-
 =head1 DESCRIPTION
 
-This class loader implements phrasebook patterns using DBI. 
+This class loader implements phrasebook patterns using DBI.
 
-Phrases can be contained within one or more dictionaries, with each phrase 
-accessible via a unique key. Phrases may contain placeholders, please see 
+Phrases can be contained within one or more dictionaries, with each phrase
+accessible via a unique key. Phrases may contain placeholders, please see
 L<Data::Phrasebook> for an explanation of how to use these. Groups of phrases
-are kept in a dictionary. The first dictionary is used as the default, unless 
+are kept in a dictionary. The first dictionary is used as the default, unless
 a specific dictionary is requested.
 
 This module provides a base class for phrasebook implementations via a database.
@@ -119,7 +115,7 @@ sub load
 	croak "Phrasebook table name missing"
 		unless($self->{file}{dbtable});
 	croak "Phrasebook column names missing"
-		unless($self->{file}{dbcolumns} && 
+		unless($self->{file}{dbcolumns} &&
 		       scalar(@{$self->{file}{dbcolumns}}) >= 2);
 
 	$self->{dbh} = $self->{file}{dbh}	if(defined $self->{file}{dbh});
@@ -130,7 +126,7 @@ sub load
 		croak "DB user details missing"
 			unless($self->{file}{dbuser} && $self->{file}{dbpass});
 
-		DBI->connect(	$self->{file}{dsn}, 
+		DBI->connect(	$self->{file}{dsn},
 						$self->{file}{dbuser}, $self->{file}{dbpass},
 						{ RaiseError => 1, AutoCommit => 1 });
 	};
@@ -156,7 +152,7 @@ sub get {
 			' WHERE '.$self->{file}{dbcolumns}[0].'=?';
 
     if($self->{file}{dbcolumns}[2] && $self->{dict}) {
-        push @dicts, ref($self->{dict}) eq 'ARRAY' ? @{$self->{dict}} : $self->{dict}; 
+        push @dicts, ref($self->{dict}) eq 'ARRAY' ? @{$self->{dict}} : $self->{dict};
         my $query = $sql . ' AND   '.$self->{file}{dbcolumns}[2].'=?';
         $sth = $self->{dbh}->prepare($sql);
 
@@ -216,7 +212,7 @@ sub keywords {
     my $self = shift;
     my $dict_set = 0;
 
-    # note that we don't need to worry about dictionaries as the default 
+    # note that we don't need to worry about dictionaries as the default
     # is to search all available dictionaries
 
 	my $sql =
@@ -251,19 +247,11 @@ L<Data::Phrasebook>.
 There are no known bugs at the time of this release. However, if you spot a
 bug or are experiencing difficulties, that is not explained within the POD
 documentation, please send an email to barbie@cpan.org or submit a bug to the
-RT system (http://rt.cpan.org/). However, it would help greatly if you are 
-able to pinpoint problems or even supply a patch. 
+RT system (http://rt.cpan.org/). However, it would help greatly if you are
+able to pinpoint problems or even supply a patch.
 
-Fixes are dependant upon their severity and my availablity. Should a fix not
+Fixes are dependent upon their severity and my availability. Should a fix not
 be forthcoming, please feel free to (politely) remind me.
-
-=head1 DSLIP
-
-  b - Beta testing
-  d - Developer
-  p - Perl-only
-  O - Object oriented
-  p - Standard-Perl: user may choose between GPL and Artistic
 
 =head1 AUTHOR
 
@@ -272,14 +260,9 @@ be forthcoming, please feel free to (politely) remind me.
 
 =head1 COPYRIGHT AND LICENSE
 
-  Copyright (C) 2004-2007 Barbie for Miss Barbell Productions.
-  All Rights Reserved.
+  Copyright (C) 2004-2012 Barbie for Miss Barbell Productions.
 
-  This module is free software; you can redistribute it and/or 
-  modify it under the same terms as Perl itself.
-
-The full text of the licenses can be found in the F<Artistic> and
-F<COPYING> files included with this module, or in L<perlartistic> and
-L<perlgpl> in Perl 5.8.1 or later.
+  This module is free software; you can redistribute it and/or
+  modify it under the Artistic License 2.0.
 
 =cut
