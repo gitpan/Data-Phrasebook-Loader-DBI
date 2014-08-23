@@ -5,7 +5,7 @@ use base qw( Data::Phrasebook::Loader::Base Data::Phrasebook::Debug );
 use Carp qw( croak );
 use DBI;
 
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 
 =head1 NAME
 
@@ -259,7 +259,7 @@ be forthcoming, please feel free to (politely) remind me.
 
 =head1 COPYRIGHT AND LICENSE
 
-  Copyright (C) 2004-2013 Barbie for Miss Barbell Productions.
+  Copyright (C) 2004-2014 Barbie for Miss Barbell Productions.
 
   This distribution is free software; you can redistribute it and/or
   modify it under the Artistic License 2.0.
